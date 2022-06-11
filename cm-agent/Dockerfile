@@ -37,6 +37,9 @@ WORKDIR /tmp/images/cm_base
 FROM cm_base AS cm_agent
 LABEL maintainer="Wanglsir<983708408@qq.com>, Wanglsir<Wanglsir@gmail.com>"
 
+ENV CLOUDERA_ROOT=/opt/cloudera
+ENV CMF_DEFAULTS=/etc/default/cloudera-scm-agent
+
 RUN \
 useradd cloudera-scm \
 && mkdir -p /opt/cloudera /etc/cloudera-scm-agent
@@ -44,13 +47,16 @@ useradd cloudera-scm \
 COPY material/cloudera-manager-agent*.rpm /
 COPY conf/* /etc/cloudera-manager-agent/
 COPY docker-entrypoint.sh /
+COPY lib/mysql-connector-java-*.jar /usr/share/java/mysql-connector-java.jar
 
 RUN \
 rpm -iv /cloudera-manager-agent-*.rpm \
 && rm -rf /*.rpm \
 && chmod +x /docker-entrypoint.sh \
 && chown -R cloudera-scm:cloudera-scm /docker-entrypoint.sh \
-&& chown -R cloudera-scm:cloudera-scm /opt/cloudera \
+&& chown -R cloudera-scm:cloudera-scm ${CLOUDERA_ROOT} \
 && chown -R cloudera-scm:cloudera-scm /etc/cloudera-scm-agent
+
+USER cloudera-scm
 
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh", "start"]

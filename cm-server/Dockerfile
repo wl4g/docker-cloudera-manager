@@ -42,12 +42,14 @@ ENV CMF_DEFAULTS=/etc/default/cloudera-scm-server
 
 RUN \
 useradd cloudera-scm \
-&& mkdir -p /opt/cloudera /etc/cloudera-scm-server
+&& mkdir -p /opt/cloudera /etc/cloudera-scm-server \
+&& mkdir -p /usr/share/java/
 
 COPY material/cloudera-manager-server*.rpm /
 COPY material/cloudera-manager-daemons*.rpm /
 COPY conf/* /etc/cloudera-manager-server/
 COPY docker-entrypoint.sh /
+COPY lib/mysql-connector-java-*.jar /usr/share/java/mysql-connector-java.jar
 
 RUN \
 rpm -iv /cloudera-manager-daemons-*.rpm \
@@ -56,7 +58,8 @@ rpm -iv /cloudera-manager-daemons-*.rpm \
 && chmod +x /docker-entrypoint.sh \
 && chown -R cloudera-scm:cloudera-scm /docker-entrypoint.sh \
 && chown -R cloudera-scm:cloudera-scm ${CLOUDERA_ROOT} \
-&& chown -R cloudera-scm:cloudera-scm /etc/cloudera-scm-server
+&& chown -R cloudera-scm:cloudera-scm /etc/cloudera-scm-server \
+&& chown -R cloudera-scm:cloudera-scm /usr/share/java
 
 USER cloudera-scm
 
