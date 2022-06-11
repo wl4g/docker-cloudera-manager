@@ -58,6 +58,8 @@ docker run --rm \
 docker run --rm \
 --entrypoint /bin/sh wl4g/cloudera-manager-agent:6.3.1 \
 -c "cat /run/cloudera-scm-agent/supervisor/supervisord.conf" > /run/cloudera-scm-agent/supervisor/supervisord.conf
+
+ln -snf /run/cloudera-scm-agent/supervisor/supervisord.conf /etc/supervisord.conf
 ```
 
 - 2.3 Run container
@@ -69,6 +71,7 @@ docker run -d \
 --privileged \
 -v /etc/cloudera-scm-agent/config.ini:/etc/cloudera-scm-agent/config.ini \
 -v /etc/default/cloudera-scm-agent:/etc/default/cloudera-scm-agent \
+-v /etc/supervisord.conf:/etc/supervisord.conf \
 -v /mnt/disk1/log/cloudera-scm-agent/:/var/log/cloudera-scm-agent/ \
 -v /run/cloudera-scm-agent/:/run/cloudera-scm-agent/ \
 -v /opt/cloudera/csd/:/opt/cloudera/csd/ \
