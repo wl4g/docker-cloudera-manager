@@ -1,11 +1,14 @@
 # cloudera-manager-server
 
-## 1. Building
+## Quick start
+
+### 1. Building
 
 - 1.1 Preconditions
 
-> Before building the image, you should first download and prepare the `cloudera-manager-*.rpm` material installation package.
-> You can download it from the official website: [https://archive.cloudera.com/cm6/6.3.1](https://archive.cloudera.com/cm6/6.3.1), or download it from here: [https://pan.baidu.com/s/1G9WbCITyY8IHOmAsvB1osw](https://pan.baidu.com/s/1G9WbCITyY8IHOmAsvB1osw) &nbsp;&nbsp; password: &nbsp; `a4n8`
+  Before building the image, you should first download and prepare the `cloudera-manager-daemons*.rpm/cloudera-manager-server*.rpm` material installation package to `cm-server/material/` directory.
+
+  You can download it from the official website: [https://archive.cloudera.com/cm6/6.3.1](https://archive.cloudera.com/cm6/6.3.1), or download it from here: [https://pan.baidu.com/s/1G9WbCITyY8IHOmAsvB1osw](https://pan.baidu.com/s/1G9WbCITyY8IHOmAsvB1osw) &nbsp;&nbsp; password: &nbsp; `a4n8`
 
 - 1.2 Docker build
 
@@ -19,7 +22,7 @@ cd cm-server
 docker build -t wl4g/cloudera-manager-server:6.3.1 .
 ```
 
-## 2. Quick Start
+### 2. Run cm-server container
 
 > Follow the steps below, you need to prepare an external MySQL 5.7+ instance
 
@@ -54,6 +57,7 @@ docker run --rm \
 - 2.4 Run container
 
 ```bash
+#export CMF_JAVA_OPTS='-Xms1G -Xmx1G'
 docker run -d \
 --name cm-server1 \
 --network host \

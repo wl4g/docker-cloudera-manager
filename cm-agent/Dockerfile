@@ -44,18 +44,20 @@ RUN \
 useradd cloudera-scm \
 && mkdir -p /opt/cloudera /etc/cloudera-scm-agent
 
+COPY material/cloudera-manager-daemons*.rpm /
 COPY material/cloudera-manager-agent*.rpm /
 COPY conf/* /etc/cloudera-manager-agent/
 COPY docker-entrypoint.sh /
-COPY lib/mysql-connector-java-*.jar /usr/share/java/mysql-connector-java.jar
 
 RUN \
-rpm -iv /cloudera-manager-agent-*.rpm \
+rpm -iv /cloudera-manager-daemons-*.rpm \
+&& rpm -iv /cloudera-manager-agent-*.rpm \
 && rm -rf /*.rpm \
 && chmod +x /docker-entrypoint.sh \
 && chown -R cloudera-scm:cloudera-scm /docker-entrypoint.sh \
 && chown -R cloudera-scm:cloudera-scm ${CLOUDERA_ROOT} \
-&& chown -R cloudera-scm:cloudera-scm /etc/cloudera-scm-agent
+&& chown -R cloudera-scm:cloudera-scm /etc/cloudera-scm-agent \
+&& chown -R cloudera-scm:cloudera-scm /var/run/
 
 USER cloudera-scm
 

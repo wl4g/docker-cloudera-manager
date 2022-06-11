@@ -21,8 +21,7 @@ if [ "$1" = 'start' ]; then
       cp -f $CM_DB_CONFIG $DB_CONFIG_FILE
   fi
 
-  /opt/cloudera/cm/bin/cm-server-pre
-  /opt/cloudera/cm/bin/cm-server
+  /opt/cloudera/cm-agent/bin/cm agent
 else
   exec "$@"
 fi
