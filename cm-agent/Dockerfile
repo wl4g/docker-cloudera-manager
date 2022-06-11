@@ -40,25 +40,36 @@ LABEL maintainer="Wanglsir<983708408@qq.com>, Wanglsir<Wanglsir@gmail.com>"
 ENV CLOUDERA_ROOT=/opt/cloudera
 ENV CMF_DEFAULTS=/etc/default/cloudera-scm-agent
 
+## cm-server needs to communicate with cm-agent using ssh to process management commands.
+## see:https://blogs.wl4g.com/archives/2044
 RUN \
 useradd cloudera-scm \
-&& mkdir -p /opt/cloudera /etc/cloudera-scm-agent
+&& mkdir -p /opt/cloudera /etc/cloudera-scm-agent /run/cloudera-scm-agent/supervisor \
+&& yum install -y passwd net-tools openssl openssh-server \
+&& ssh-keygen -q -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N '' \
+&& ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' \
+&& ssh-keygen -t dsa -f /etc/ssh/ssh_host_ed25519_key -N '' \
+&& sed 's/#Port 22/Port 122/' /etc/ssh/sshd_config \
+&& /usr/sbin/sshd -D &
 
 COPY material/cloudera-manager-daemons*.rpm /
 COPY material/cloudera-manager-agent*.rpm /
-COPY conf/* /etc/cloudera-manager-agent/
+COPY conf/supervisord.conf /run/cloudera-scm-agent/supervisor/
 COPY docker-entrypoint.sh /
 
 RUN \
 rpm -iv /cloudera-manager-daemons-*.rpm \
 && rpm -iv /cloudera-manager-agent-*.rpm \
 && rm -rf /*.rpm \
-&& chmod +x /docker-entrypoint.sh \
+&& chmod 777 /docker-entrypoint.sh \
 && chown -R cloudera-scm:cloudera-scm /docker-entrypoint.sh \
 && chown -R cloudera-scm:cloudera-scm ${CLOUDERA_ROOT} \
 && chown -R cloudera-scm:cloudera-scm /etc/cloudera-scm-agent \
-&& chown -R cloudera-scm:cloudera-scm /var/run/
+&& chown -R cloudera-scm:cloudera-scm /run/cloudera-scm-agent \
+&& yum install -y sudo \
+&& echo "cloudera-scm  ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER cloudera-scm
+## cm-agent should be run as root to manage CDH components.
+# USER cloudera-scm
 
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh", "start"]

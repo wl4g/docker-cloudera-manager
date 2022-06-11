@@ -31,25 +31,31 @@ docker build -t wl4g/cloudera-manager-server:6.3.1 .
 ```bash
 sudo mkdir -p /etc/cloudera-scm-server/
 sudo mkdir -p /mnt/disk1/log/cloudera-scm-server/
+sudo mkdir -p /run/cloudera-scm-server/
 sudo mkdir -p /opt/cloudera/csd/
 sudo mkdir -p /opt/cloudera/parcel-cache/
 sudo mkdir -p /opt/cloudera/parcel-repo/
 sudo mkdir -p /opt/cloudera/parcels/
 sudo chmod -R 777 /etc/cloudera-scm-server/
 sudo chmod -R 777 /mnt/disk1/log/cloudera-scm-server/
+sudo chmod -R 777 /run/cloudera-scm-server/
 sudo chmod -R 777 /opt/cloudera/csd/
 sudo chmod -R 777 /opt/cloudera/parcel-cache/
 sudo chmod -R 777 /opt/cloudera/parcel-repo/
 sudo chmod -R 777 /opt/cloudera/parcels/
 ```
 
-- 2.2 Cloudera Manager Server requires an external mysql or postgresql database, pass it as a volume and mount to `/etc/cloudera-scm-server/db.properties`
+- 2.2 Cloudera Manager Server requires an external mysql or postgresql database, pass it as a volume and mount to `/etc/cloudera-scm-server/db.properties`/`/etc/default/cloudera-scm-server`
 
 ```bash
 ## Extract default configuration.
 docker run --rm \
 --entrypoint /bin/sh wl4g/cloudera-manager-server:6.3.1 \
 -c "cat /etc/cloudera-scm-server/db.properties" > /etc/cloudera-scm-server/db.properties
+
+docker run --rm \
+--entrypoint /bin/sh wl4g/cloudera-manager-server:6.3.1 \
+-c "cat /etc/default/cloudera-scm-server" > /etc/default/cloudera-scm-server
 ```
 
 - 2.3 Init database for `cmf` :  [conf/cdh6.3.1_cmf_init.sql](conf/cdh6.3.1_cmf_init.sql)
@@ -62,6 +68,7 @@ docker run -d \
 --name cm-server1 \
 --network host \
 -v /etc/cloudera-scm-server/db.properties:/etc/cloudera-scm-server/db.properties \
+-v /etc/default/cloudera-scm-server:/etc/default/cloudera-scm-server \
 -v /mnt/disk1/log/cloudera-scm-server/:/var/log/cloudera-scm-server/ \
 -v /opt/cloudera/csd/:/opt/cloudera/csd/ \
 -v /opt/cloudera/parcel-cache/:/opt/cloudera/parcel-cache/ \
@@ -71,3 +78,5 @@ wl4g/cloudera-manager-server:6.3.1
 ```
 
 - 2.5 Access Cloudera Manager Web:  [http://localhost:7180](http://localhost:7180)  &nbsp;&nbsp;&nbsp; login account:  `admin/admin`
+
+> ***Notice:*** &nbsp; The `cloudera-scm-server` service must be executed under: `cloudera-scm:cloudera-scm` user and user group.

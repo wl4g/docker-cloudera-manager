@@ -12,16 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-set -e
+set -ex
 
 if [ "$1" = 'start' ]; then
-  DB_CONFIG_FILE=/etc/cloudera-scm-server/db.properties
-
-  if [[ "$CM_DB_CONFIG" != "" ]]; then
-      cp -f $CM_DB_CONFIG $DB_CONFIG_FILE
-  fi
-
-  /opt/cloudera/cm-agent/bin/cm agent
+  exec /opt/cloudera/cm-agent/bin/../bin/supervisord -n &
+  exec /opt/cloudera/cm-agent/bin/cm agent
 else
   exec "$@"
 fi

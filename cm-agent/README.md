@@ -31,23 +31,33 @@ docker build -t wl4g/cloudera-manager-agent:6.3.1 .
 ```bash
 sudo mkdir -p /etc/cloudera-scm-agent/
 sudo mkdir -p /mnt/disk1/log/cloudera-scm-agent/
+sudo mkdir -p /run/cloudera-scm-agent/
 sudo mkdir -p /opt/cloudera/csd/
 sudo mkdir -p /opt/cloudera/parcel-cache/
 sudo mkdir -p /opt/cloudera/parcels/
 sudo chmod -R 777 /etc/cloudera-scm-agent/
 sudo chmod -R 777 /mnt/disk1/log/cloudera-scm-agent/
+sudo chmod -R 777 /run/cloudera-scm-agent/
 sudo chmod -R 777 /opt/cloudera/csd/
 sudo chmod -R 777 /opt/cloudera/parcel-cache/
 sudo chmod -R 777 /opt/cloudera/parcels/
 ```
 
-- 2.2 Before starting, you should configure the cm server info you need to connect, pass it as a volume and mount to `/etc/cloudera-scm-agent/config.ini`
+- 2.2 Before starting, you should configure the cm server info you need to connect, pass it as a volume and mount to `/etc/cloudera-scm-agent/config.ini`/`/etc/default/cloudera-scm-agent`
 
 ```bash
 ## Extract default configuration.
 docker run --rm \
 --entrypoint /bin/sh wl4g/cloudera-manager-agent:6.3.1 \
 -c "cat /etc/cloudera-scm-agent/config.ini" > /etc/cloudera-scm-agent/config.ini
+
+docker run --rm \
+--entrypoint /bin/sh wl4g/cloudera-manager-agent:6.3.1 \
+-c "cat /etc/default/cloudera-scm-agent" > /etc/default/cloudera-scm-agent
+
+docker run --rm \
+--entrypoint /bin/sh wl4g/cloudera-manager-agent:6.3.1 \
+-c "cat /run/cloudera-scm-agent/supervisor/supervisord.conf" > /run/cloudera-scm-agent/supervisor/supervisord.conf
 ```
 
 - 2.3 Run container
@@ -56,10 +66,15 @@ docker run --rm \
 docker run -d \
 --name cm-agent1 \
 --network host \
+--privileged \
 -v /etc/cloudera-scm-agent/config.ini:/etc/cloudera-scm-agent/config.ini \
+-v /etc/default/cloudera-scm-agent:/etc/default/cloudera-scm-agent \
 -v /mnt/disk1/log/cloudera-scm-agent/:/var/log/cloudera-scm-agent/ \
+-v /run/cloudera-scm-agent/:/run/cloudera-scm-agent/ \
 -v /opt/cloudera/csd/:/opt/cloudera/csd/ \
 -v /opt/cloudera/parcel-cache/:/opt/cloudera/parcel-cache/ \
 -v /opt/cloudera/parcels/:/opt/cloudera/parcels/ \
 wl4g/cloudera-manager-agent:6.3.1
 ```
+
+> ***Notice:*** &nbsp; The `cloudera-scm-agent` service must be executed under: `root:root` user and user group and `--privileged` super permission.
