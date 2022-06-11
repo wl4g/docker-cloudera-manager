@@ -49,7 +49,8 @@ useradd cloudera-scm \
 && echo y|ssh-keygen -q -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N '' \
 && echo y|ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' \
 && echo y|ssh-keygen -t dsa -f /etc/ssh/ssh_host_ed25519_key -N '' \
-&& sed -i 's/#Port 22/Port 122/' /etc/ssh/sshd_config
+&& sed -i 's/#Port 22/Port 122/' /etc/ssh/sshd_config \
+&& echo 123456 | passwd --stdin root
 
 COPY material/cloudera-manager-daemons*.rpm /
 COPY material/cloudera-manager-agent*.rpm /

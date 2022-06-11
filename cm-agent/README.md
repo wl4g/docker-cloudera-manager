@@ -80,4 +80,8 @@ docker run -d \
 wl4g/cloudera-manager-agent:6.3.1
 ```
 
-> ***Notice:*** &nbsp; The `cloudera-scm-agent` service must be executed under: `root:root` user and user group and `--privileged` super permission.
+### 3. Notice
+
+- 3.1 The `cloudera-scm-agent` service must be executed under: `root:root` user and user group and `--privileged` super permission.
+
+- 3.2 ***cm-server*** manages ***cm-agent*** through ***ssh***, the sshd port started in the container is ***122***, and the account password is: `root/123456`, Login cm-agent command example: &nbsp; `ssh root@cdh6-worker-1 -p 122`
