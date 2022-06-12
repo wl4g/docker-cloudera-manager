@@ -75,10 +75,12 @@ docker-compose up -d
 docker run -d \
 --name cm-agent1 \
 --network host \
+--hostname $(hostname) \
 --privileged \
 -v /etc/cloudera-scm-agent/config.ini:/etc/cloudera-scm-agent/config.ini \
 -v /etc/cloudera-scm-agent/supervisord.conf:/etc/supervisord.conf \
 -v /etc/cloudera-scm-agent/supervisord.conf:/run/cloudera-scm-agent/supervisor/supervisord.conf \
+-v /etc/cloudera-scm-agent/supervisord.conf:/var/run/cloudera-scm-agent/supervisor/supervisord.conf \
 -v /etc/default/cloudera-scm-agent:/etc/default/cloudera-scm-agent \
 -v /mnt/disk1/log/cloudera-scm-agent/:/var/log/cloudera-scm-agent/ \
 -v /run/cloudera-scm-agent/:/run/cloudera-scm-agent/ \
@@ -94,6 +96,7 @@ wl4g/cloudera-manager-agent:6.3.1
 
 - 3.2 ***cm-server*** manages ***cm-agent*** through ***ssh***, the sshd port started in the container is ***122***, and the account password is: `root/123456`, Login cm-agent command example: &nbsp; `ssh root@cdh6-worker-1 -p 122`
 
+- 3.3 The when ***cm-agent*** is registered to the ***cm-server***, and the host name must be used to ensure that the ***cm-server*** can connect to ***cm-agent***. That is: &nbsp; `--hostname=$(hostname)`.
 
 ### 4. FAQ
 
