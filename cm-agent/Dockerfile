@@ -42,10 +42,11 @@ ENV CMF_DEFAULTS=/etc/default/cloudera-scm-agent
 
 ## cm-server needs to communicate with cm-agent using ssh to process management commands.
 ## see:https://blogs.wl4g.com/archives/2044
+## Among them, openssh-clients is used to transfer parcels using scp during installation
 RUN \
 useradd cloudera-scm \
 && mkdir -p /opt/cloudera /etc/cloudera-scm-agent /run/cloudera-scm-agent/supervisor \
-&& yum install -y passwd net-tools openssl openssh-server \
+&& yum install -y passwd net-tools openssl openssh-server openssh-clients \
 && echo y|ssh-keygen -q -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N '' \
 && echo y|ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' \
 && echo y|ssh-keygen -t dsa -f /etc/ssh/ssh_host_ed25519_key -N '' \

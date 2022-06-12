@@ -25,7 +25,7 @@ ADD https://gitee.com/wl4g-k8s/tini/attach_files/1092261/download/tini /sbin/tin
 # curl -skL -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo \
 RUN \
 yum clean all && yum makecache \
-&& yum install -y ntp java-1.8.0-openjdk-devel.x86_64 bind-utils \
+&& yum install -y ntp java-1.8.0-openjdk.x86_64 bind-utils \
 psmisc cyrus-sasl-plain openssl cyrus-sasl-gssapi fuse portmap perl fuse-libs httpd mod_ssl \
 openssl-devel python-psycopg2 MySQL-python psmisc iproute redhat-lsb-core initscripts \
 && rm /etc/localtime \
