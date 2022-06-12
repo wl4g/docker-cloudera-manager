@@ -77,8 +77,9 @@ docker run -d \
 --network host \
 --privileged \
 -v /etc/cloudera-scm-agent/config.ini:/etc/cloudera-scm-agent/config.ini \
+-v /etc/cloudera-scm-agent/supervisord.conf:/etc/supervisord.conf \
+-v /etc/cloudera-scm-agent/supervisord.conf:/run/cloudera-scm-agent/supervisor/supervisord.conf \
 -v /etc/default/cloudera-scm-agent:/etc/default/cloudera-scm-agent \
--v /etc/supervisord.conf:/etc/supervisord.conf \
 -v /mnt/disk1/log/cloudera-scm-agent/:/var/log/cloudera-scm-agent/ \
 -v /run/cloudera-scm-agent/:/run/cloudera-scm-agent/ \
 -v /opt/cloudera/csd/:/opt/cloudera/csd/ \
