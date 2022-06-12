@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 11/06/2022 17:21:50
+ Date: 13/06/2022 02:58:44
 */
 
 SET NAMES utf8mb4;
@@ -320,7 +320,8 @@ CREATE TABLE `cm_version` (
   `LAST_UPDATE_INSTANT` bigint(20) DEFAULT NULL,
   `TS` bigint(20) DEFAULT NULL,
   `HOSTNAME` varchar(255) DEFAULT NULL,
-  `LAST_ACTIVE_TIMESTAMP` bigint(20) DEFAULT NULL
+  `LAST_ACTIVE_TIMESTAMP` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`VERSION`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -831,7 +832,6 @@ CREATE TABLE `hosts` (
 -- Records of hosts
 -- ----------------------------
 BEGIN;
-INSERT INTO `hosts` VALUES (1, 1, 'f191983e-7f94-4dc9-a616-457ac0e45aab', 'cdh6-master-1', '10.0.0.111', '/default', 'NA', 1, 0, 0, NULL, 1, 2984218624, NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1267,7 +1267,8 @@ COMMIT;
 DROP TABLE IF EXISTS `schema_version`;
 CREATE TABLE `schema_version` (
   `VERSION` int(11) NOT NULL,
-  `OLD_VERSION` int(11) NOT NULL DEFAULT '0'
+  `OLD_VERSION` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`VERSION`,`OLD_VERSION`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
