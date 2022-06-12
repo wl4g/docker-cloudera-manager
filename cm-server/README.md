@@ -2,6 +2,8 @@
 
 ## Quick start
 
+> If you are using [containerd](https://github.com/containerd/containerd) or [cri-o](https://github.com/cri-o/cri-o) engine instead of [docker](https://github.com/moby/moby) engine, you only need to use the [nerdctl](https://github.com/containerd/nerdctl) command to bridge, the specific operation is: `ln -snf $(which nerdctl) /bin/docker`
+
 ### 1. Building
 
 - 1.1 Preconditions
