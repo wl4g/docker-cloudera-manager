@@ -16,7 +16,7 @@ set -ex
 
 if [ "$1" = 'start' ]; then
   exec /usr/sbin/sshd -D &
-  exec /opt/cloudera/cm-agent/bin/../bin/supervisord -n &
+  exec /opt/cloudera/cm-agent/bin/supervisord -n &
   exec /opt/cloudera/cm-agent/bin/cm agent
 else
   exec "$@"

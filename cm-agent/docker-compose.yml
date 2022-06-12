@@ -20,12 +20,12 @@ services:
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - /etc/cloudera-scm-agent/config.ini:/etc/cloudera-scm-agent/config.ini
+      - /run/cloudera-scm-agent/:/run/cloudera-scm-agent/
       - /etc/cloudera-scm-agent/supervisord.conf:/etc/supervisord.conf
-      - /etc/cloudera-scm-agent/supervisord.conf:/run/cloudera-scm-agent/supervisor/supervisord.conf
+      - /etc/cloudera-scm-agent/supervisord.conf:/var/run/cloudera-scm-agent/supervisor/supervisord.conf
+      - /etc/cloudera-scm-agent/config.ini:/etc/cloudera-scm-agent/config.ini
       - /etc/default/cloudera-scm-agent:/etc/default/cloudera-scm-agent
       - /mnt/disk1/log/cloudera-scm-agent/:/var/log/cloudera-scm-agent/
-      - /run/cloudera-scm-agent/:/run/cloudera-scm-agent/
       - /opt/cloudera/csd/:/opt/cloudera/csd/
       - /opt/cloudera/parcel-cache/:/opt/cloudera/parcel-cache/
       - /opt/cloudera/parcels/:/opt/cloudera/parcels/

@@ -72,18 +72,20 @@ docker-compose up -d
 - 2.4 Run container with manual
 
 ```bash
-docker run -d \
+docker run --rm \
 --name cm-agent1 \
---network host \
 --hostname $(hostname) \
+--network host \
 --privileged \
--v /etc/cloudera-scm-agent/config.ini:/etc/cloudera-scm-agent/config.ini \
--v /etc/cloudera-scm-agent/supervisord.conf:/etc/supervisord.conf \
--v /etc/cloudera-scm-agent/supervisord.conf:/run/cloudera-scm-agent/supervisor/supervisord.conf \
--v /etc/cloudera-scm-agent/supervisord.conf:/var/run/cloudera-scm-agent/supervisor/supervisord.conf \
--v /etc/default/cloudera-scm-agent:/etc/default/cloudera-scm-agent \
--v /mnt/disk1/log/cloudera-scm-agent/:/var/log/cloudera-scm-agent/ \
 -v /run/cloudera-scm-agent/:/run/cloudera-scm-agent/ \
+-v /etc/cloudera-scm-agent/supervisord.conf:/etc/supervisord.conf \
+-v /etc/cloudera-scm-agent/supervisord.conf:/var/run/cloudera-scm-agent/supervisor/supervisord.conf \
+\
+-v /etc/cloudera-scm-agent/config.ini:/etc/cloudera-scm-agent/config.ini \
+-v /etc/default/cloudera-scm-agent:/etc/default/cloudera-scm-agent \
+\
+-v /mnt/disk1/log/cloudera-scm-agent/:/var/log/cloudera-scm-agent/ \
+\
 -v /opt/cloudera/csd/:/opt/cloudera/csd/ \
 -v /opt/cloudera/parcel-cache/:/opt/cloudera/parcel-cache/ \
 -v /opt/cloudera/parcels/:/opt/cloudera/parcels/ \
@@ -97,6 +99,8 @@ wl4g/cloudera-manager-agent:6.3.1
 - 3.2 ***cm-server*** manages ***cm-agent*** through ***ssh***, the sshd port started in the container is ***122***, and the account password is: `root/123456`, Login cm-agent command example: &nbsp; `ssh root@cdh6-worker-1 -p 122`
 
 - 3.3 The when ***cm-agent*** is registered to the ***cm-server***, and the host name must be used to ensure that the ***cm-server*** can connect to ***cm-agent***. That is: &nbsp; `--hostname=$(hostname)`.
+
+- 3.4 `/etc/supervisord.conf` and `/var/run/cloudera-scm-agent/supervisor/supervisord.conf` must be mounted at the same time, otherwise the `/opt/cloudera/cm-agent/bin/supervisord -n` process startup will report an error: `Failed! trying again in 2 second(s): No supervisor config present`.
 
 ### 4. FAQ
 
