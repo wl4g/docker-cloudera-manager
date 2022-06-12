@@ -72,7 +72,7 @@ docker-compose up -d
 - 2.4 Run container with manual
 
 ```bash
-docker run --rm \
+docker run -d \
 --name cm-agent1 \
 --hostname $(hostname) \
 --network host \
@@ -89,6 +89,7 @@ docker run --rm \
 -v /opt/cloudera/csd/:/opt/cloudera/csd/ \
 -v /opt/cloudera/parcel-cache/:/opt/cloudera/parcel-cache/ \
 -v /opt/cloudera/parcels/:/opt/cloudera/parcels/ \
+\
 wl4g/cloudera-manager-agent:6.3.1
 ```
 

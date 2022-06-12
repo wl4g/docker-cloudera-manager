@@ -78,11 +78,14 @@ docker run -d \
 --network host \
 -v /etc/cloudera-scm-server/db.properties:/etc/cloudera-scm-server/db.properties \
 -v /etc/default/cloudera-scm-server:/etc/default/cloudera-scm-server \
+\
 -v /mnt/disk1/log/cloudera-scm-server/:/var/log/cloudera-scm-server/ \
+\
 -v /opt/cloudera/csd/:/opt/cloudera/csd/ \
 -v /opt/cloudera/parcel-cache/:/opt/cloudera/parcel-cache/ \
 -v /opt/cloudera/parcel-repo/:/opt/cloudera/parcel-repo/ \
 -v /opt/cloudera/parcels/:/opt/cloudera/parcels/ \
+\
 wl4g/cloudera-manager-server:6.3.1
 ```
 
