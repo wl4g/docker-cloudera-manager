@@ -36,7 +36,6 @@ services:
         max-size: "200M"
         max-file: "10"
 
-
 ## see:https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode
 # networks:
 #   cm_net:
