@@ -48,7 +48,7 @@ useradd cloudera-scm \
 COPY material/cloudera-manager-server*.rpm /
 COPY material/cloudera-manager-daemons*.rpm /
 COPY conf/* /etc/cloudera-manager-server/
-COPY docker-entrypoint.sh /
+COPY script/docker-entrypoint.sh /
 COPY lib/mysql-connector-java-*.jar /usr/share/java/mysql-connector-java.jar
 
 RUN \

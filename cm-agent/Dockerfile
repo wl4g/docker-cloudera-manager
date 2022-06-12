@@ -55,7 +55,7 @@ useradd cloudera-scm \
 COPY material/cloudera-manager-daemons*.rpm /
 COPY material/cloudera-manager-agent*.rpm /
 COPY conf/supervisord.conf /run/cloudera-scm-agent/supervisor/
-COPY docker-entrypoint.sh /
+COPY script/docker-entrypoint.sh /
 
 RUN \
 rpm -iv /cloudera-manager-daemons-*.rpm \

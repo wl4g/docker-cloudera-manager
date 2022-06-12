@@ -57,12 +57,17 @@ docker run --rm \
 
 docker run --rm \
 --entrypoint /bin/sh wl4g/cloudera-manager-agent:6.3.1 \
--c "cat /run/cloudera-scm-agent/supervisor/supervisord.conf" > /run/cloudera-scm-agent/supervisor/supervisord.conf
-
-ln -snf /run/cloudera-scm-agent/supervisor/supervisord.conf /etc/supervisord.conf
+-c "cat /run/cloudera-scm-agent/supervisor/supervisord.conf" > /etc/cloudera-scm-agent/supervisord.conf
 ```
 
-- 2.3 Run container
+- 2.3 Run container with docker-compose (***Recommends***)
+
+```bash
+cd cm-agent
+docker-compose up -d
+```
+
+- 2.4 Run container with manual
 
 ```bash
 docker run -d \

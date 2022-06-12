@@ -60,7 +60,14 @@ docker run --rm \
 
 - 2.3 Init database for `cmf` :  [conf/cdh6.3.1_cmf_init.sql](conf/cdh6.3.1_cmf_init.sql)
 
-- 2.4 Run container
+- 2.4 Run container with docker-compose (***Recommends***)
+
+```bash
+cd cm-server
+docker-compose up -d
+```
+
+- 2.5 Run container with manual
 
 ```bash
 #export CMF_JAVA_OPTS='-Xms1G -Xmx1G'
