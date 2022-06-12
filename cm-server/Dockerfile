@@ -59,7 +59,8 @@ rpm -iv /cloudera-manager-daemons-*.rpm \
 && chown -R cloudera-scm:cloudera-scm /docker-entrypoint.sh \
 && chown -R cloudera-scm:cloudera-scm ${CLOUDERA_ROOT} \
 && chown -R cloudera-scm:cloudera-scm /etc/cloudera-scm-server \
-&& chown -R cloudera-scm:cloudera-scm /usr/share/java
+&& chown -R cloudera-scm:cloudera-scm /usr/share/java \
+&& yum clean all
 
 USER cloudera-scm
 
